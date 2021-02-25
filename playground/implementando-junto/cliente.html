@@ -119,7 +119,7 @@
                     },
                     ArrowDown() {
                         if (player.y + 1 < screen.height) {
-                            player.y += 1;
+                            player.y =player.y + 1;
                         }
                     },
                     ArrowLeft() {
@@ -130,7 +130,8 @@
                 }
 
                 const keyPressed = command.keyPressed;
-                const player = state.players[command.playerId];
+                const playerId = command.playerId;
+                const player = state.players[playerId];
                 const moveFunction = acceptMoves[keyPressed];
 
                 if (player && moveFunction) {
@@ -139,11 +140,12 @@
                 }
              }
 
-            function checkForFruitCollition(command){
+            function checkForFruitCollition(playerId){
                 const player = state.players[playerId]; 
 
-                for(const fruit of state.fruits){
-                    if(fruit.positionX == player.positionX && fruit.positionY === player.positionY){
+                for(const fruitId in state.fruits){
+                    const fruit = state.fruits[fruitId];
+                    if(fruit.x === player.x && fruit.y === player.y){
                         console.log(`Collision between ${playerId} and ${fruitId}`);
                         removeFruit({fruitId:fruitId});
                     }
